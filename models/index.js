@@ -39,7 +39,6 @@ db.images = require("./imageModel")(sequelize, DataTypes);
 db.participants = require("./participantsModel")(sequelize, DataTypes);
 db.dons = require("./donModel")(sequelize, DataTypes);
 db.actualites = require("./actualitesModel")(sequelize, DataTypes);
-<<<<<<< HEAD
 db.categoriesMagazine = require("./categoriesMagazineModel")(sequelize, DataTypes);
 db.magazines = require("./magazinesModel")(sequelize, DataTypes);
 
@@ -50,10 +49,8 @@ db.magazines.belongsTo(db.categoriesMagazine, {
     foreignKey: "categorieMagazineId",
     as: 'categorie'
 });
-=======
 db.documents = require("./document")(sequelize, DataTypes);
 db.texts = require("./textSiteModel")(sequelize, DataTypes);
->>>>>>> c70190a (jj)
 
 // RELATION 1-N CATEGORIE / SOUS CATEGORIE
 db.categories.hasMany(db.sousCategories, { as: 'sousCategories', });
