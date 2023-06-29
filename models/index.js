@@ -41,6 +41,16 @@ db.dons = require("./donModel")(sequelize, DataTypes);
 db.actualites = require("./actualitesModel")(sequelize, DataTypes);
 db.categoriesMagazine = require("./categoriesMagazineModel")(sequelize, DataTypes);
 db.magazines = require("./magazinesModel")(sequelize, DataTypes);
+db.categoriesActus = require("./categoriesActus")(sequelize, DataTypes);
+
+
+// RELATION MAGAZINE et CATEGORIE 1-N
+db.categoriesActus.hasMany(db.actualites, { as: 'actualites', });
+
+db.actualites.belongsTo(db.categoriesActus, {
+    foreignKey: "categorieActuId",
+    as: 'categorie'
+});
 
 // RELATION MAGAZINE et CATEGORIE 1-N
 db.categoriesMagazine.hasMany(db.magazines, { as: 'magazines', });
@@ -49,6 +59,7 @@ db.magazines.belongsTo(db.categoriesMagazine, {
     foreignKey: "categorieMagazineId",
     as: 'categorie'
 });
+
 db.documents = require("./document")(sequelize, DataTypes);
 db.texts = require("./textSiteModel")(sequelize, DataTypes);
 

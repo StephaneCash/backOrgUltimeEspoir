@@ -3,7 +3,12 @@ const { ValidationError, UniqueConstraintError, ValidationErrorItem } = require(
 
 const getAllActualites = async (req, res) => {
     try {
-        let actualites = await db.actualites.findAll();
+        let actualites = await db.actualites.findAll({
+            include: [{
+                model: db.categoriesActus,
+                as: "categorie"
+            }]
+        });
         res.status(200).json(actualites);
 
     } catch (error) {
@@ -16,13 +21,20 @@ const getAllActualites = async (req, res) => {
 const createActualite = async (req, res) => {
     try {
         if (req.file) {
-            const { nom, description, } = req.body;
+            const { nom, description, categorieActuId } = req.body;
             let newActualite = await db.actualites.create({
                 nom: nom,
                 description: description,
-                url: `api/${req.file.path}`
+                url: `api/${req.file.path}`,
+                categorieActuId: categorieActuId
             });
-            res.status(201).json(newActualite);
+            let findcat = await db.actualites.findByPk(newActualite.id, {
+                include: [{
+                    model: db.categoriesActus,
+                    as: "categorie"
+                }]
+            });
+            res.status(201).json(findcat);
         } else {
             let newActualite = await db.actualites.create(req.body);
             res.status(201).json(newActualite);
@@ -71,16 +83,22 @@ const actualitesUpdated = async (req, res) => {
 
         if (findactualites) {
             if (req.file) {
-                const { nom, description, } = req.body;
+                const { nom, description, categorieActuId } = req.body;
                 let updateactualites = await findactualites.update({
                     nom: nom,
                     description: description,
-                    url: `api/${req.file.path}`
+                    url: `api/${req.file.path}`,
+                    categorieActuId: categorieActuId
                 }, {
                     where: { id: id }
                 });
                 if (updateactualites) {
-                    let findcat = await db.actualites.findByPk(id);
+                    let findcat = await db.actualites.findByPk(id, {
+                        include: [{
+                            model: db.categoriesActus,
+                            as: "categorie"
+                        }]
+                    });
                     res.status(200).json(findcat);
                 }
             } else {
@@ -88,7 +106,12 @@ const actualitesUpdated = async (req, res) => {
                     where: { id: id }
                 });
                 if (updateactualites) {
-                    let findcat = await db.actualites.findByPk(id);
+                    let findcat = await db.actualites.findByPk(id, {
+                        include: [{
+                            model: db.categoriesActus,
+                            as: "categorie"
+                        }]
+                    });
                     res.status(200).json(findcat);
                 }
             }
