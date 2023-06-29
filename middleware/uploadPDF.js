@@ -10,11 +10,11 @@ const storage = multer.diskStorage({
     }
 })
 
-const uploadImages = multer({
+const upload = multer({
     storage: storage,
     limits: { fileSize: '1000000' },
     fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|gif|JPEG|JPG|PNG|GIF|PNG|PDF|pdf|Pdf/
+        const fileTypes = /jpeg|jpg|png|gif|PNG|JPG|SVG|svg|JPEG|GIF|PDF|pdf/
         const mimeType = fileTypes.test(file.mimetype)
         const extname = fileTypes.test(path.extname(file.originalname))
 
@@ -23,6 +23,6 @@ const uploadImages = multer({
         }
         return cb("Veuillez fournir un bon format de fichiers à télécharger");
     }
-}).array('image', 5);
+}).single('file');
 
-module.exports = uploadImages
+module.exports = upload

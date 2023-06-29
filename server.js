@@ -18,6 +18,8 @@ const userRoutes = require("./routes/users.routes");
 const participantsRoutes = require("./routes/particpants.routes");
 const articlesRouter = require("./routes/articles.routes");
 const actualitesRouter = require("./routes/actualites.routes");
+const categoriesMagazinesRoutes = require("./routes/categoriesMagazines.routes");
+const magazinesRouter = require("./routes/magazines.routes");
 
 app.use("/api/dons", donsRouter);
 app.use("/api/categories", caregoriesRoutes);
@@ -27,6 +29,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/participants", participantsRoutes);
 app.use("/api/articles", articlesRouter);
 app.use("/api/actualites", actualitesRouter);
+app.use("/api/categories-magazines", categoriesMagazinesRoutes);
+app.use("/api/magazines", magazinesRouter);
 
 app.use("/api/uploads", express.static('./uploads'));
 
