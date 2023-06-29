@@ -20,20 +20,22 @@ const getAllImages = async (req, res) => {
 
 const createImage = async (req, res) => {
     try {
-        const { articleId } = req.body;
-        let data = [];
+        const { articleId, nom, description } = req.body;
         if (req.files) {
-            for (let i = 0; i < req.files.length; i++) {
-                let newImage = await db.images.create({
-                    articleId: articleId,
-                    url: `api/${req.files[i].path}`,
-                });
-                data.push(newImage)
-            }
-            res.status(201).json(data)
+            let newImage = await db.images.create({
+                articleId: articleId,
+                url: `api/${req.files[0].path}`,
+                description: description,
+                nom: nom
+            });
+            res.status(201).json(newImage)
         } else {
-            let newImage = await db.images.create(req.body);
-            res.status(201).json({ message: "Image créée avec succès", data: newImage })
+            let newImage = await db.images.create({
+                articleId: articleId,
+                description: description,
+                nom: nom
+            });
+            res.status(201).json(newImage)
         }
     } catch (err) {
         if (err instanceof ValidationError) {
@@ -77,13 +79,13 @@ const updateImage = async (req, res) => {
         let id = req.params.id;
         let findImage = await db.images.findOne({ where: { id: id } });
         const { nom, description, articleId } = req.body;
-        if (req.file) {
+        if (req.files) {
             if (findImage) {
                 let imageUpdate = await findImage.update({
                     nom: nom,
                     description: description,
                     articleId: articleId,
-                    url: `api/${req.file.path}`
+                    url: `api/${req.files[0].path}`
                 }, {
                     where: { id: id }
                 });

@@ -1,9 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Image = sequelize.define("image", {
-        url: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
+    const Document = sequelize.define("document", {
         nom: {
             type: DataTypes.STRING,
         },
@@ -12,5 +8,5 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
-    return Image;
+    return Document;
 }
