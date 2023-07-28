@@ -42,6 +42,7 @@ db.actualites = require("./actualitesModel")(sequelize, DataTypes);
 db.categoriesMagazine = require("./categoriesMagazineModel")(sequelize, DataTypes);
 db.magazines = require("./magazinesModel")(sequelize, DataTypes);
 db.categoriesActus = require("./categoriesActus")(sequelize, DataTypes);
+db.publications = require("./publicationModel")(sequelize, DataTypes);
 
 
 // RELATION MAGAZINE et CATEGORIE 1-N

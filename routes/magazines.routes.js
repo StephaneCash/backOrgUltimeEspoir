@@ -10,6 +10,6 @@ router.get("/:id", magazineController.getOneMagazine);
 router.put("/:id", upload, magazineController.magazinesUpdated);
 router.delete("/:id", magazineController.deleteMagazine);
 
-router.post("/addPDF/:id", uploadPDF, magazineController.addPDF);
+router.patch("/addPDF/:id", uploadPDF, magazineController.addPDF);
 
 module.exports = router;

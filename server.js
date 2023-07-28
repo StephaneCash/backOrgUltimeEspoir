@@ -23,6 +23,7 @@ const magazinesRouter = require("./routes/magazines.routes");
 const documentsRouter = require("./routes/documents.routes");
 const textRouter = require("./routes/texts.routes");
 const categoiriesActusRouter = require("./routes/categoriesActus.routes");
+const publicationsRouter = require("./routes/publications.routes");
 
 app.use("/api/dons", donsRouter);
 app.use("/api/categories", caregoriesRoutes);
@@ -37,6 +38,7 @@ app.use("/api/magazines", magazinesRouter);
 app.use("/api/documents", documentsRouter);
 app.use("/api/texts", textRouter);
 app.use("/api/categories-actus", categoiriesActusRouter);
+app.use("/api/publications", publicationsRouter);
 
 app.use("/api/uploads", express.static('./uploads'));
 

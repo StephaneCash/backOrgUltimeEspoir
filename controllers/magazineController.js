@@ -28,10 +28,22 @@ const createMagazine = async (req, res) => {
                 image: `api/${req.file.path}`,
                 categorieMagazineId: categorieMagazineId
             });
-            res.status(201).json(newMagazine);
+            let findMag = await db.magazines.findByPk(newMagazine.id, {
+                include: [{
+                    model: db.categoriesMagazine,
+                    as: "categorie"
+                }]
+            });
+            res.status(201).json(findMag);
         } else {
             let newMagazine = await db.magazines.create(req.body);
-            res.status(201).json(newMagazine);
+            let findMag = await db.magazines.findByPk(newMagazine.id, {
+                include: [{
+                    model: db.categoriesMagazine,
+                    as: "categorie"
+                }]
+            });
+            res.status(201).json(findMag);
         }
     } catch (err) {
         if (err instanceof ValidationError) {
@@ -77,7 +89,7 @@ const magazinesUpdated = async (req, res) => {
 
         if (findmagazines) {
             if (req.file) {
-                const { nom, description, categorieMagazineId} = req.body;
+                const { nom, description, categorieMagazineId } = req.body;
                 let updatemagazines = await findmagazines.update({
                     nom: nom,
                     description: description,
@@ -87,7 +99,12 @@ const magazinesUpdated = async (req, res) => {
                     where: { id: id }
                 });
                 if (updatemagazines) {
-                    let findcat = await db.magazines.findByPk(id);
+                    let findcat = await db.magazines.findByPk(id, {
+                        include: [{
+                            model: db.categoriesMagazine,
+                            as: "categorie"
+                        }]
+                    });
                     res.status(200).json(findcat);
                 }
             } else {
@@ -95,7 +112,10 @@ const magazinesUpdated = async (req, res) => {
                     where: { id: id }
                 });
                 if (updatemagazines) {
-                    let findcat = await db.magazines.findByPk(id);
+                    let findcat = await db.magazines.findByPk(id, { include: [{
+                        model: db.categoriesMagazine,
+                        as: "categorie"
+                    }]});
                     res.status(200).json(findcat);
                 }
             }
@@ -116,7 +136,7 @@ const addPDF = async (req, res) => {
         if (findmagazines) {
             if (req.file) {
                 let updatemagazines = await findmagazines.update({
-                    urlPdf: `api/${req.file.path}`,
+                    urlDOc: `api/${req.file.path}`,
                 }, {
                     where: { id: id }
                 });
